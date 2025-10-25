@@ -2,6 +2,7 @@ const { Worker } = require('bullmq');
 const pool = require('../utils/db');
 const gitOps = require('../utils/gitOperations');
 const { connection } = require('../utils/queue');
+const encryption = require('../utils/encryption');
 require('dotenv').config();
 
 const worker = new Worker(
@@ -34,12 +35,16 @@ const worker = new Worker(
       console.log(`[Worker] Access token available: ${!!automation.access_token}`);
       console.log(`[Worker] User: ${automation.github_username} (${automation.email})`);
 
+      // Decrypt access token
+      const decryptedToken = encryption.decrypt(automation.access_token);
+      console.log(`[Worker] Token decrypted successfully`);
+
       // Clone or pull repo
       console.log(`[Worker] Cloning/pulling repository...`);
       const repoPath = await gitOps.cloneOrPull(
         automation.repo_url,
         `${userId}-${automation.repo_full_name}`,
-        automation.access_token
+        decryptedToken
       );
       console.log(`[Worker] Repository path: ${repoPath}`);
 
@@ -57,7 +62,7 @@ const worker = new Worker(
         repoPath,
         automation.repo_url,
         automation,
-        automation.access_token,
+        decryptedToken,
         commitMessage,
         userName,
         userEmail
