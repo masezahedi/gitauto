@@ -134,11 +134,13 @@ app.use((err, req, res, next) => {
 });
 
 // SPA catch-all (for production)
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
+app.use((req, res) => {
+  if (!req.path.startsWith('/api')) {
     res.sendFile(path.join(distPath, 'index.html'));
-  });
-}
+  } else {
+    res.status(404).json({ error: 'Not found' });
+  }
+});
 
 // 404 handler
 app.use((req, res) => {
