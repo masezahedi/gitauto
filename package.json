@@ -1,0 +1,48 @@
+{
+  "name": "git",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node src/server/server.js",
+    "client": "vite",
+    "build:frontend": "vite build",
+    "build": "npm run build:frontend",
+    "start": "cross-env NODE_ENV=production node src/server/server.js",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bullmq": "^5.61.2",
+    "compression": "^1.8.1",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.5",
+    "cron": "^4.3.3",
+    "cronstrue": "^3.9.0",
+    "cross-env": "^10.1.0",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.18",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "joi": "^18.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "pg": "^8.16.3",
+    "redis": "^5.9.0",
+    "simple-git": "^3.28.0",
+    "winston": "^3.18.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "antd": "^5.27.6",
+    "axios": "^1.12.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.4",
+    "vite": "^6.4.1"
+  }
+}

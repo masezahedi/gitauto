@@ -1,0 +1,128 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables - CRITICAL: Never commit secrets!
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Repository storage
+repos/
+.repos/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.sublime-project
+.sublime-workspace
+*.swp
+*.swo
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Redis dumps
+dump.rdb
+
+# Build cache
+.turbo/
+dist/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Parcel
+.cache/
+.parcel-cache/
+dist/
+.env.test
+
+# Misc
+.cache
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.venv
+env/
+venv/
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment specific
+production.env
+development.env
+
+# Project specific
+.vagrant/
+.vagrant.yml
+
+# GitHub Automation specific
+repos/                          # Cloned repositories
+logs/error.log                 # Error logs
+logs/combined.log              # Combined logs
+.env                           # NEVER commit this!
+
+# Sensitive data
+*.pem
+*.key
+*.crt
+private/
+
+# Node modules (again, just to be sure)
+node_modules
