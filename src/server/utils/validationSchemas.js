@@ -33,7 +33,7 @@ const removeRepositorySchema = Joi.object({
 
 // Automation Schemas
 const cronExpressionSchema = Joi.string()
-  .pattern(/^\\d{1,2}\\s\\d{1,2}\\s\\d{1}\\s\\d{1}\\s\\d{1}(\\n\\d{1,2}\\s\\d{1,2}\\s\\d{1}\\s\\d{1}\\s\\d{1})*$/)
+  .pattern(/^\d{1,2}\s\d{1,2}\s[\d\*]{1,2}\s[\d\*]{1,2}\s[\d\*]{1,2}(\n\d{1,2}\s\d{1,2}\s[\d\*]{1,2}\s[\d\*]{1,2}\s[\d\*]{1,2})*$/)
   .required()
   .messages({
     'string.pattern.base': 'فرمت CRON نادرست است. باید به صورت "دقیقه ساعت روز ماه هفته" باشد',

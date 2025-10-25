@@ -33,7 +33,8 @@ export default function SimpleCronScheduler({ onChange }) {
     const newTimes = [...times, newTime]
     setTimes(newTimes)
     
-    const cron = generateCron()
+    // Generate cron with newTimes, not old times state
+    const cron = newTimes.map(t => `${t.minute} ${t.hour} * * ${daysValue[t.day]}`).join('\n')
     onChange(cron)
     
     setTempHour('09')
