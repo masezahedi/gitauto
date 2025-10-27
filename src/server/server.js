@@ -54,7 +54,6 @@ const path = require('path');
 // Middleware - اضافه کردن global middleware
 app.use(compression()); // Response compression برای بهبود performance
 app.use(morgan('combined', { stream: morganStream })); // Request logging
-app.use(limiter); // Global rate limiting
 
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -66,14 +65,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 logger.info('Server initialized', { NODE_ENV: process.env.NODE_ENV, PORT });
 
-// Serve built frontend
+// Serve built frontend (without rate limiting for static files)
 const distPath = path.join(__dirname, '../../dist');
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(distPath));
 }
 
-// Routes with rate limiting
-app.use('/api/auth', authLimiter, authRoutes); // Stricter rate limiting for auth
+// Apply rate limiting only to API routes
+app.use('/api', limiter); // Global rate limiting for all API endpoints
+
+// Routes with stricter rate limiting
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/repositories', apiLimiter, repositoryRoutes);
 app.use('/api/automations', apiLimiter, automationRoutes);
 app.use('/api/admin', apiLimiter, adminRoutes);
