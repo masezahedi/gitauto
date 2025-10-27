@@ -107,7 +107,7 @@ class AuthController {
     try {
       const userId = req.user.id;
 
-      const query = 'SELECT id, github_username, email, name, avatar_url FROM users WHERE id = $1';
+      const query = 'SELECT id, github_username, email, name, avatar_url, is_admin FROM users WHERE id = $1';
       const result = await pool.query(query, [userId]);
 
       if (result.rows.length === 0) {

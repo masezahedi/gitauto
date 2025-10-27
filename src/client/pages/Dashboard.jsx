@@ -37,7 +37,7 @@ export default function Dashboard() {
     navigate('/')
   }
 
-  const isAdmin = user?.id === 1
+  const isAdmin = user?.is_admin === true
 
   if (loading) {
     return (
