@@ -6,13 +6,11 @@ class AdminController {
     try {
       const adminId = req.user.id;
 
-      // Verify admin access (check if user is first user or has admin role)
-      const adminQuery = 'SELECT id FROM users ORDER BY id LIMIT 1';
-      const adminResult = await pool.query(adminQuery);
+      // Verify admin access
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
       
-      const isFirstUser = adminResult.rows.length > 0 && adminResult.rows[0].id === adminId;
-
-      if (!isFirstUser) {
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
         return res.status(403).json({ error: 'شما مجاز نیستید' });
       }
 
@@ -36,12 +34,10 @@ class AdminController {
       const adminId = req.user.id;
 
       // Verify admin access
-      const adminQuery = 'SELECT id FROM users ORDER BY id LIMIT 1';
-      const adminResult = await pool.query(adminQuery);
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
       
-      const isFirstUser = adminResult.rows.length > 0 && adminResult.rows[0].id === adminId;
-
-      if (!isFirstUser) {
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
         return res.status(403).json({ error: 'شما مجاز نیستید' });
       }
 
@@ -79,12 +75,10 @@ class AdminController {
       const { userId } = req.params;
 
       // Verify admin access
-      const adminQuery = 'SELECT id FROM users ORDER BY id LIMIT 1';
-      const adminResult = await pool.query(adminQuery);
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
       
-      const isFirstUser = adminResult.rows.length > 0 && adminResult.rows[0].id === adminId;
-
-      if (!isFirstUser) {
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
         return res.status(403).json({ error: 'شما مجاز نیستید' });
       }
 
@@ -120,12 +114,10 @@ class AdminController {
       const { limit = 100 } = req.query;
 
       // Verify admin access
-      const adminQuery = 'SELECT id FROM users ORDER BY id LIMIT 1';
-      const adminResult = await pool.query(adminQuery);
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
       
-      const isFirstUser = adminResult.rows.length > 0 && adminResult.rows[0].id === adminId;
-
-      if (!isFirstUser) {
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
         return res.status(403).json({ error: 'شما مجاز نیستید' });
       }
 
@@ -160,12 +152,10 @@ class AdminController {
       const adminId = req.user.id;
 
       // Verify admin access
-      const adminQuery = 'SELECT id FROM users ORDER BY id LIMIT 1';
-      const adminResult = await pool.query(adminQuery);
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
       
-      const isFirstUser = adminResult.rows.length > 0 && adminResult.rows[0].id === adminId;
-
-      if (!isFirstUser) {
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
         return res.status(403).json({ error: 'شما مجاز نیستید' });
       }
 
@@ -193,12 +183,10 @@ class AdminController {
       const { automationId } = req.params;
 
       // Verify admin access
-      const adminQuery = 'SELECT id FROM users ORDER BY id LIMIT 1';
-      const adminResult = await pool.query(adminQuery);
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
       
-      const isFirstUser = adminResult.rows.length > 0 && adminResult.rows[0].id === adminId;
-
-      if (!isFirstUser) {
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
         return res.status(403).json({ error: 'شما مجاز نیستید' });
       }
 
