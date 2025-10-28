@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Table, Statistic, Row, Col, Spin, message } from 'antd'
-import { UserOutlined, CodeOutlined, BarsOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Card, Table, Statistic, Row, Col, Spin, message, Button, Modal } from 'antd'
+import { UserOutlined, CodeOutlined, BarsOutlined, CheckOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import api from '../utils/api'
 
 export default function AdminPanel() {
@@ -35,11 +35,40 @@ export default function AdminPanel() {
     }
   }
 
+  const handleDeleteUser = (userId) => {
+    Modal.confirm({
+      title: 'آیا از حذف این کاربر اطمینان دارید؟',
+      icon: <ExclamationCircleOutlined />,
+      content: 'با حذف این کاربر، تمام مخازن، اتوماسیون‌ها و لاگ‌های مربوط به او نیز برای همیشه پاک خواهند شد.',
+      okText: 'بله، حذف کن',
+      okType: 'danger',
+      cancelText: 'خیر',
+      onOk: async () => {
+        try {
+          await api.delete(`/admin/users/${userId}`)
+          message.success('کاربر با موفقیت حذف شد')
+          fetchData() // Refresh data
+        } catch (error) {
+          message.error('خطا در حذف کاربر')
+        }
+      },
+    });
+  };
+
   const userColumns = [
     { title: 'نام کاربری', dataIndex: 'github_username', key: 'github_username' },
     { title: 'ایمیل', dataIndex: 'email', key: 'email' },
     { title: 'نام', dataIndex: 'name', key: 'name' },
     { title: 'تاریخ عضویت', dataIndex: 'created_at', key: 'created_at', render: (date) => new Date(date).toLocaleDateString('fa-IR') },
+    {
+      title: 'عملیات',
+      key: 'action',
+      render: (text, record) => (
+        <Button type="danger" onClick={() => handleDeleteUser(record.id)}>
+          حذف
+        </Button>
+      ),
+    },
   ]
 
   const automationColumns = [

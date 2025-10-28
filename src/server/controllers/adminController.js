@@ -213,4 +213,41 @@ class AdminController {
   }
 }
 
+  async deleteUser(req, res) {
+    try {
+      const adminId = req.user.id;
+      const { userId } = req.params;
+
+      // Verify admin access
+      const adminQuery = 'SELECT is_admin FROM users WHERE id = $1';
+      const adminResult = await pool.query(adminQuery, [adminId]);
+      
+      if (adminResult.rows.length === 0 || !adminResult.rows[0].is_admin) {
+        return res.status(403).json({ error: 'شما مجاز نیستید' });
+      }
+
+      // Find all automations for the user
+      const automationsQuery = 'SELECT id FROM automations WHERE user_id = $1';
+      const automationsResult = await pool.query(automationsQuery, [userId]);
+      const automations = automationsResult.rows;
+
+      // Deactivate all scheduled jobs for the user's automations
+      const scheduler = require('../jobs/schedulerSimple');
+      for (const automation of automations) {
+        scheduler.deactivateAutomation(automation.id);
+      }
+
+      // Delete the user from the database
+      const deleteQuery = 'DELETE FROM users WHERE id = $1';
+      await pool.query(deleteQuery, [userId]);
+
+      logger.info('User deleted successfully', { userId });
+      res.json({ message: 'کاربر با موفقیت حذف شد' });
+    } catch (error) {
+      logger.error('Error deleting user', { message: error.message });
+      res.status(500).json({ error: 'خطا در حذف کاربر' });
+    }
+  }
+}
+
 module.exports = new AdminController();

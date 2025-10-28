@@ -16,5 +16,6 @@ router.get('/automations/:userId', authMiddleware, validateParams(getUserAutomat
 router.get('/logs', authMiddleware, validateQuery(getLogsLimitSchema), adminController.getExecutionLogs);
 router.get('/stats', authMiddleware, adminController.getUserStats);
 router.patch('/automations/:automationId/disable', authMiddleware, validateParams(disableAutomationSchema), adminController.disableAutomation);
+router.delete('/users/:userId', authMiddleware, adminController.deleteUser);
 
 module.exports = router;
