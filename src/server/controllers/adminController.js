@@ -211,7 +211,6 @@ class AdminController {
       res.status(500).json({ error: 'خطا در غیرفعال کردن اتوماسیون' });
     }
   }
-}
 
   async deleteUser(req, res) {
     try {
