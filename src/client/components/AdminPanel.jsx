@@ -36,6 +36,7 @@ export default function AdminPanel() {
   }
 
   const handleDeleteUser = (userId) => {
+    console.log('handleDeleteUser called with userId:', userId);
     Modal.confirm({
       title: 'آیا از حذف این کاربر اطمینان دارید؟',
       icon: <ExclamationCircleOutlined />,
@@ -45,10 +46,12 @@ export default function AdminPanel() {
       cancelText: 'خیر',
       onOk: async () => {
         try {
+          console.log('Deleting user:', userId);
           await api.delete(`/admin/users/${userId}`)
           message.success('کاربر با موفقیت حذف شد')
           fetchData() // Refresh data
         } catch (error) {
+          console.error('Error deleting user:', error);
           message.error('خطا در حذف کاربر')
         }
       },
@@ -64,7 +67,15 @@ export default function AdminPanel() {
       title: 'عملیات',
       key: 'action',
       render: (text, record) => (
-        <Button type="danger" onClick={() => handleDeleteUser(record.id)}>
+        <Button 
+          type="primary" 
+          danger
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log('Button clicked, record:', record);
+            handleDeleteUser(record.id);
+          }}
+        >
           حذف
         </Button>
       ),
