@@ -35,27 +35,26 @@ export default function AdminPanel() {
     }
   }
 
-  const handleDeleteUser = (userId) => {
+  const handleDeleteUser = async (userId) => {
     console.log('handleDeleteUser called with userId:', userId);
-    Modal.confirm({
-      title: 'آیا از حذف این کاربر اطمینان دارید؟',
-      icon: <ExclamationCircleOutlined />,
-      content: 'با حذف این کاربر، تمام مخازن، اتوماسیون‌ها و لاگ‌های مربوط به او نیز برای همیشه پاک خواهند شد.',
-      okText: 'بله، حذف کن',
-      okType: 'danger',
-      cancelText: 'خیر',
-      onOk: async () => {
-        try {
-          console.log('Deleting user:', userId);
-          await api.delete(`/admin/users/${userId}`)
-          message.success('کاربر با موفقیت حذف شد')
-          fetchData() // Refresh data
-        } catch (error) {
-          console.error('Error deleting user:', error);
-          message.error('خطا در حذف کاربر')
-        }
-      },
-    });
+    
+    const confirmed = window.confirm('آیا از حذف این کاربر اطمینان دارید؟ \nبا حذف این کاربر، تمام مخازن، اتوماسیون‌ها و لاگ‌های مربوط به او نیز حذف خواهند شد.');
+    
+    if (!confirmed) {
+      console.log('User cancelled deletion');
+      return;
+    }
+    
+    try {
+      console.log('Deleting user:', userId);
+      await api.delete(`/admin/users/${userId}`)
+      console.log('User deleted successfully');
+      message.success('کاربر با موفقیت حذف شد')
+      fetchData() // Refresh data
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      message.error('خطا در حذف کاربر')
+    }
   };
 
   const userColumns = [
