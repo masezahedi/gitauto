@@ -53,6 +53,19 @@ export default function SimpleCronScheduler({ onChange }) {
     }
   }
 
+  const handleRandomizeWeek = () => {
+    const newTimes = []
+    for (let dayIdx = 0; dayIdx < 6; dayIdx++) {
+      const hour = Math.floor(Math.random() * 24)
+      const minute = Math.floor(Math.random() * 60)
+      newTimes.push({ day: dayIdx, hour, minute })
+    }
+    setTimes(newTimes)
+    
+    const cron = newTimes.map(t => `${t.minute} ${t.hour} * * ${daysValue[t.day]}`).join('\n')
+    onChange(cron)
+  }
+
   const handleCustomCron = (e) => {
     const cron = e.target.value
     setCustomCron(cron)
@@ -116,14 +129,21 @@ export default function SimpleCronScheduler({ onChange }) {
               </div>
             </div>
 
-            <Button 
-              type="primary" 
-              onClick={handleAddTime}
-              style={{ width: '100%' }}
-              icon={<PlusOutlined />}
-            >
-              اضافه کردن
-            </Button>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <Button 
+                type="primary" 
+                onClick={handleAddTime}
+                icon={<PlusOutlined />}
+              >
+                اضافه کردن برنامه‌زمانی
+              </Button>
+              <Button 
+                onClick={handleRandomizeWeek}
+                style={{ background: '#52c41a', color: '#fff', border: 'none' }}
+              >
+                ایجاد برنامه هفتگی تصادفی
+              </Button>
+            </div>
 
             {times.length > 0 && (
               <div style={{ marginTop: '20px' }}>
